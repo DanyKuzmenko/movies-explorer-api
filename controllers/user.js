@@ -4,6 +4,7 @@ const User = require('../models/user');
 const ErrorNotFound = require('../errors/ErrorNotFound');
 const ErrorBadRequest = require('../errors/ErrorBadRequest');
 const ErrorConflict = require('../errors/ErrorConflict');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUser = (req, res, next) => {

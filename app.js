@@ -12,6 +12,7 @@ const { errorLogger, requestLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const ErrorNotFound = require('./errors/ErrorNotFound');
 const requestHandler = require('./middlewares/rateLimiter');
+
 const { PORT = 3000, NODE_ENV, MONGODB_ADDRESS } = process.env;
 
 const app = express();
