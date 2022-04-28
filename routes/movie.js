@@ -1,5 +1,5 @@
 const express = require('express');
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, Segments } = require('celebrate');
 
 const router = express.Router();
 const { getMovies, createMovie, deleteMovie } = require('../controllers/movie');
@@ -20,6 +20,10 @@ router.post('/movies', celebrate({
     nameEN: Joi.string().required(),
   }),
 }), createMovie);
-router.delete('/movies/_id', deleteMovie);
+router.delete('/movies/:movieId', celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    movieId: Joi.string().required().hex().length(24),
+  }),
+}), deleteMovie);
 
 module.exports = router;
