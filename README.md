@@ -21,6 +21,6 @@
 
 ## **Ссылки:**
 Github: https://github.com/DanyKuzmenko  
-LinkedIn: https://www.linkedin.com/in/daniil-kuzmenko-30a33822b/
-Сайт: https://api.dankuzmenko.movies.nomoredomains.work/
+LinkedIn: https://www.linkedin.com/in/daniil-kuzmenko-30a33822b/  
+Сайт: https://api.dankuzmenko.movies.nomoredomains.work/  
 IP: 51.250.81.126
