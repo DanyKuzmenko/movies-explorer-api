@@ -58,7 +58,7 @@ app.use(errors());
 app.use(errorHandler);
 
 async function main() {
-  await mongoose.connect(NODE_ENV === 'production' ? MONGODB_ADDRESS : 'mongo-secret');
+  await mongoose.connect(NODE_ENV === 'production' ? MONGODB_ADDRESS : 'mongodb://localhost:27017/moviesdb-development');
   app.listen(PORT);
 }
 
