@@ -20,21 +20,30 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
-  User.findByIdAndUpdate(req.user._id, {
-    name,
-    email,
-  }, {
-    new: true,
-    runValidators: true,
-  })
+  User.findOne({ email })
     .orFail(() => {
-      throw new ErrorNotFound(`Нет пользователя с id: ${req.user._id}`);
+      throw new ErrorNotFound('Пользователя с таким email не существует');
     })
     .then((user) => {
-      res.send({
-        name: user.name,
-        email: user.email,
-      });
+      if (user._id.toString() !== req.user._id) {
+        throw new ErrorConflict('Пользователь с таким email уже существует');
+      }
+      if (user.email === email || user.name === name) {
+        throw new ErrorBadRequest('Необходимо ввести новые данные пользователя');
+      }
+      return User.findByIdAndUpdate(req.user._id, {
+        name,
+        email,
+      }, {
+        new: true,
+        runValidators: true,
+      })
+        .then((user) => {
+          res.send({
+            name: user.name,
+            email: user.email,
+          });
+        })
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -65,7 +74,7 @@ module.exports.createUser = (req, res, next) => {
       return bcrypt.hash(password, 10);
     })
     .then((hash) => {
-      User.create({ name, email, password: hash })
+      return User.create({ name, email, password: hash })
         .then((user) => {
           res.send({
             name: user.name,
@@ -73,12 +82,12 @@ module.exports.createUser = (req, res, next) => {
             _id: user._id,
           });
         })
-        .catch((err) => {
-          if (err.name === 'ValidationError') {
-            next(new ErrorBadRequest('Переданы неккоректные данные при создании пользователя'));
-          } else {
-            next(err);
-          }
-        });
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ErrorBadRequest('Переданы неккоректные данные при создании пользователя'));
+      } else {
+        next(err);
+      }
     });
 };

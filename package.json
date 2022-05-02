@@ -1,7 +1,7 @@
 {
   "name": "movies-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Its server for project about movies",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",

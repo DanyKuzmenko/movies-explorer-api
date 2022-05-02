@@ -19,7 +19,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -32,7 +32,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailerLink: trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -40,20 +40,7 @@ module.exports.createMovie = (req, res, next) => {
     owner: req.user._id,
   })
     .then((movie) => {
-      res.send({
-        country: movie.country,
-        director: movie.director,
-        duration: movie.duration,
-        year: movie.year,
-        description: movie.description,
-        image: movie.image,
-        trailer: movie.trailer,
-        nameRU: movie.nameRU,
-        nameEN: movie.nameEN,
-        thumbnail: movie.thumbnail,
-        movieId: movie.movieId,
-        _id: movie._id,
-      });
+      res.send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -82,7 +69,7 @@ module.exports.deleteMovie = (req, res, next) => {
             year: movie.year,
             description: movie.description,
             image: movie.image,
-            trailer: movie.trailer,
+            trailerLink: movie.trailerLink,
             nameRU: movie.nameRU,
             nameEN: movie.nameEN,
             thumbnail: movie.thumbnail,
