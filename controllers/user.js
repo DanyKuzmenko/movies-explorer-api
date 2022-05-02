@@ -28,7 +28,7 @@ module.exports.updateUser = (req, res, next) => {
       if (user._id.toString() !== req.user._id) {
         throw new ErrorConflict('Пользователь с таким email уже существует');
       }
-      if (user.email === email || user.name === name) {
+      if (user.name === name) {
         throw new ErrorBadRequest('Необходимо ввести новые данные пользователя');
       }
       return User.findByIdAndUpdate(req.user._id, {
