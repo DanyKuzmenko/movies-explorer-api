@@ -38,12 +38,12 @@ module.exports.updateUser = (req, res, next) => {
         new: true,
         runValidators: true,
       })
-        .then((user) => {
+        .then((updateUser) => {
           res.send({
-            name: user.name,
-            email: user.email,
+            name: updateUser.name,
+            email: updateUser.email,
           });
-        })
+        });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -73,16 +73,14 @@ module.exports.createUser = (req, res, next) => {
       }
       return bcrypt.hash(password, 10);
     })
-    .then((hash) => {
-      return User.create({ name, email, password: hash })
-        .then((user) => {
-          res.send({
-            name: user.name,
-            email: user.email,
-            _id: user._id,
-          });
-        })
-    })
+    .then((hash) => User.create({ name, email, password: hash })
+      .then((user) => {
+        res.send({
+          name: user.name,
+          email: user.email,
+          _id: user._id,
+        });
+      }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ErrorBadRequest('Переданы неккоректные данные при создании пользователя'));

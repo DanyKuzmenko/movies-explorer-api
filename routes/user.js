@@ -3,7 +3,9 @@ const { celebrate, Joi } = require('celebrate');
 const auth = require('../middlewares/auth');
 
 const router = express.Router();
-const { getUser, updateUser, login, createUser } = require('../controllers/user');
+const {
+  getUser, updateUser, login, createUser,
+} = require('../controllers/user');
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({
