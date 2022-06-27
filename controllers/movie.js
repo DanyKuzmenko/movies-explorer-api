@@ -6,7 +6,8 @@ const ErrorForbidden = require('../errors/ErrorForbidden');
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .then((movies) => {
-      res.send({ data: movies });
+      const userMovies = movies.filter((movie) => movie.owner.toString() === req.user._id);
+      res.send({ data: userMovies });
     })
     .catch(next);
 };

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const ErrorNotFound = require('../errors/ErrorNotFound');
+// const ErrorNotFound = require('../errors/ErrorNotFound');
 const ErrorBadRequest = require('../errors/ErrorBadRequest');
 const ErrorConflict = require('../errors/ErrorConflict');
 
@@ -20,29 +20,32 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
-  User.findOne({ email })
-    .orFail(() => {
-      throw new ErrorNotFound('Пользователя с таким email не существует');
-    })
+  User.findById(req.user._id)
     .then((user) => {
-      if (user._id.toString() !== req.user._id) {
-        throw new ErrorConflict('Пользователь с таким email уже существует');
-      }
       if (user.name === name) {
-        throw new ErrorBadRequest('Необходимо ввести новые данные пользователя');
+        throw new ErrorBadRequest('Необходимо ввести новое имя пользователя');
       }
-      return User.findByIdAndUpdate(req.user._id, {
-        name,
-        email,
-      }, {
-        new: true,
-        runValidators: true,
-      })
-        .then((updateUser) => {
-          res.send({
-            name: updateUser.name,
-            email: updateUser.email,
-          });
+      if (user.email === email) {
+        throw new ErrorBadRequest('Необходимо ввести новую почту пользователя');
+      }
+      return User.findOne({ email })
+        .then((sameUser) => {
+          if (sameUser) {
+            throw new ErrorConflict('Пользователь с таким email уже существует');
+          }
+          return User.findByIdAndUpdate(req.user._id, {
+            name,
+            email,
+          }, {
+            new: true,
+            runValidators: true,
+          })
+            .then((updateUser) => {
+              res.send({
+                name: updateUser.name,
+                email: updateUser.email,
+              });
+            });
         });
     })
     .catch((err) => {
