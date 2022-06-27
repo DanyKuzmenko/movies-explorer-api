@@ -20,8 +20,8 @@ app.use(helmet());
 app.use(requestHandler);
 
 app.use(cors({
-  origin: ['http://dankuzmenko.movies.nomoredomains.work',
-    'https://dankuzmenko.movies.nomoredomains.work'],
+  origin: ['http://dankuzmenko.movies.nomoredomains.sbs',
+    'https://dankuzmenko.movies.nomoredomains.sbs'],
   credentials: true,
 }));
 
