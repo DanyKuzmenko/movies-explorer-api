@@ -22,35 +22,28 @@ module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
   User.findById(req.user._id)
     .then((user) => {
-      if (user.name === name) {
-        throw new ErrorBadRequest('Необходимо ввести новое имя пользователя');
+      if (user.name === name && user.email === email) {
+        throw new ErrorBadRequest('Необходимо ввести новое имя или почту пользователя');
       }
-      if (user.email === email) {
-        throw new ErrorBadRequest('Необходимо ввести новую почту пользователя');
-      }
-      return User.findOne({ email })
-        .then((sameUser) => {
-          if (sameUser) {
-            throw new ErrorConflict('Пользователь с таким email уже существует');
-          }
-          return User.findByIdAndUpdate(req.user._id, {
-            name,
-            email,
-          }, {
-            new: true,
-            runValidators: true,
-          })
-            .then((updateUser) => {
-              res.send({
-                name: updateUser.name,
-                email: updateUser.email,
-              });
-            });
+      return User.findByIdAndUpdate(req.user._id, {
+        name,
+        email,
+      }, {
+        new: true,
+        runValidators: true,
+      })
+        .then((updateUser) => {
+          res.send({
+            name: updateUser.name,
+            email: updateUser.email,
+          });
         });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ErrorBadRequest('Переданы неккоректные данные при обновлении пользователя'));
+      } else if (err.code === 11000) {
+        next(new ErrorConflict('Пользователь с таким email уже существует'));
       } else {
         next(err);
       }
