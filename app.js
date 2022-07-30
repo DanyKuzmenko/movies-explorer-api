@@ -20,8 +20,8 @@ app.use(helmet());
 app.use(requestHandler);
 
 app.use(cors({
-  origin: ['http://dankuzmenko.movies.nomoredomains.work',
-    'https://dankuzmenko.movies.nomoredomains.work'],
+  origin: ['http://movies-explorer-frontend-eight.vercel.app',
+    'https://movies-explorer-frontend-eight.vercel.app'],
   credentials: true,
 }));
 
