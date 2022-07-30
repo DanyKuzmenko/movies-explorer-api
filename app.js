@@ -20,8 +20,8 @@ app.use(helmet());
 app.use(requestHandler);
 
 app.use(cors({
-  origin: ['http://dankuzmenko.movies.nomoreparties.sbs',
-    'https://dankuzmenko.movies.nomoreparties.sbs'],
+  origin: ['https://movies-explorer-frontend-eight.vercel.app',
+    'http://movies-explorer-frontend-eight.vercel.app'],
   credentials: true,
 }));
 
