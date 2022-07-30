@@ -22,5 +22,5 @@
 ## **Ссылки:**
 Github: https://github.com/DanyKuzmenko  
 LinkedIn: https://www.linkedin.com/in/daniil-kuzmenko-30a33822b/  
-Сайт: https://api.dankuzmenko.movies.nomoredomains.work/  
+Сайт: https://movies-dankuzmenko.herokuapp.com/
 IP: 51.250.81.126
