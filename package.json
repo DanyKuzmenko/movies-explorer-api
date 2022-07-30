@@ -8,7 +8,7 @@
     "dev": "nodemon app.js",
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run start"
   },
   "repository": {
     "type": "git",
